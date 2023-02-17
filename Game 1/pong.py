@@ -1,11 +1,11 @@
 # Game 1: Pong
 import turtle
 
-win = turtle.Screen()
-win.title("Pong by @lumberfoot")
-win.bgcolor("black")
-win.setup(width=800, height=600)
-win.tracer(0)
+window = turtle.Screen()
+window.title("Pong by @lumberfoot")
+window.bgcolor("black")
+window.setup(width=800, height=600)
+window.tracer(0)
 
 # Paddle A
 paddle_a = turtle.Turtle()
@@ -57,15 +57,15 @@ def paddle_b_down():
     paddle_b.sety(y)
 
 # Keyboard Binding
-win.listen()
-win.onkeypress(paddle_a_up, "w")
-win.onkeypress(paddle_a_down, "s")
-win.onkeypress(paddle_b_up, "Up")
-win.onkeypress(paddle_b_down, "Down")
+window.listen()
+window.onkeypress(paddle_a_up, "w")
+window.onkeypress(paddle_a_down, "s")
+window.onkeypress(paddle_b_up, "Up")
+window.onkeypress(paddle_b_down, "Down")
 
 # Main Game Loop
 while True:
-    win.update()
+    window.update()
 
     # Move the ball
     ball.setx(ball.xcor() + ball.dx)
@@ -88,4 +88,11 @@ while True:
         ball.goto(0, 0)
         ball.dx *= -1
 
-# 25:11 timestamp
+    # Paddle and Ball Collisions
+    if (ball.xcor() > 340 and ball.xcor() < 350) and (ball.ycor() < paddle_b.ycor() + 40 and ball.ycor() > paddle_b.ycor() - 50):
+        ball.setx(340)
+        ball.dx *= -1
+
+    if (ball.xcor() < -340 and ball.xcor() > -350) and (ball.ycor() < paddle_a.ycor() + 40 and ball.ycor() > paddle_a.ycor() - 50):
+        ball.setx(-340)
+        ball.dx *= -1
