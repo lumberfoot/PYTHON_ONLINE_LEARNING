@@ -5,8 +5,8 @@ import tkinter as tk
 from tkinter import messagebox
 
 class cube(object):
-    rows = 0
-    w = 0
+    rows = 20
+    w = 500
 
     def __init__(self, start, dirnx=1, dirny= 0, color=(255, 0, 0)):
         pass
@@ -65,11 +65,16 @@ class snake(object):
 
                 if i == len(self.body) - 1:
                     self.turns.pop(p)
+                    
             else:
                 if c.dirnx == -1 and c.pos[0] <= 0: c.pos = (c.rows - 1, c.pos[1])
+
                 elif c.dirnx == 1 and c.pos[0] >= c.rows - 1: c.pos = (0, c.pos[1])
+
                 elif c.dirny == 1 and c.pos[1] >= c.rows - 1: c.pos = (c.pos[0], 0)
+
                 elif c.dirny == -1 and c.pos[1] <= 0: c.pos = (c.pos[0], c.rows - 1)
+
                 else: c.move(c.dirnx, c.dirny)
 
     def reset(self, pos):
@@ -79,7 +84,12 @@ class snake(object):
         pass
 
     def draw(self, surface):
-        pass
+        for i, c in enumerate(self.body):
+            if i == 0:
+                c.draw(surface, True)
+            
+            else:
+                c.draw(surface)
 
 def draw_grid(w, rows, surface):
     size_between = w // rows
@@ -111,9 +121,12 @@ def main():
     window = pygame.display.set_mode((width, width))
     s = snake((255, 0, 0), (10, 10))
     flag = True
+    
     clock = pygame.time.Clock()
 
     while flag:
         pygame.time.delay(50)
         clock.tick(10)
         redraw_window(window)
+    pass
+main()
