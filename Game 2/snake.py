@@ -31,6 +31,7 @@ class cube(object):
             radius = 3
             circle_mid_1 = (i * distance + center - radius, j * distance + 8)
             circle_mid_2 = (i * distance + distance - radius * 2, j * distance + 8)
+
             pygame.draw.circle(surface, (0, 0, 0), circle_mid_1, radius)
             pygame.draw.circle(surface, (0, 0, 0), circle_mid_2, radius)
 
@@ -73,7 +74,7 @@ class snake(object):
                     self.dirny = 1
                     self.turns[self.head.pos[:]] = [self.dirnx, self.dirny]
 
-        for i, c, in enumerate(self.body):
+        for i, c in enumerate(self.body):
             p = c.pos[:]
 
             if p in self.turns:
@@ -137,11 +138,13 @@ def draw_grid(w, rows, surface):
     for l in range(rows):
         x = x + size_between
         y = y + size_between
+
         pygame.draw.line(surface, (255, 255, 255), (x, 0), (x, w))
         pygame.draw.line(surface, (255, 255, 255), (0, y), (w, y))
 
 def redraw_window(surface):
     global width, rows, s, snack
+
     surface.fill((0, 0, 0))
     s.draw(surface)
     snack.draw(surface)
@@ -157,16 +160,21 @@ def random_snack(rows, item):
 
         if len(list(filter(lambda z:z.pos == (x, y), positions))) > 0:
             continue
+
         else:
             break
+    
+    return (x, y)
 
 def message_box(subject, content):
     root = tk.Tk()
     root.attributes("-topmost", True)
     root.withdraw()
-    message_box.showinfo(subject, content)
+    messagebox.showinfo(subject, content)
+
     try:
         root.destroy()
+
     except:
         pass
 
@@ -174,11 +182,11 @@ def main():
     global width, rows, s, snack
     width = 500
     rows = 20
+    flag = True
+
     window = pygame.display.set_mode((width, width))
     s = snake((255, 0, 0), (10, 10))
     snack = cube(random_snack(rows, s), color = (0, 255, 0))
-    flag = True
-    
     clock = pygame.time.Clock()
 
     while flag:
@@ -192,11 +200,13 @@ def main():
         
         for x in range(len(s.body)):
             if s.body[x].pos in list(map(lambda z:z.pos, s.body[x + 1:])):
-                print('Score: ', len(s.body))
+                print('Match Ended.')
+                message_box('Score: ', len(s.body))
                 message_box('You Lost!', 'Play again...')
                 s.reset((10, 10))
                 break
         
         redraw_window(window)
+
     pass
 main()
