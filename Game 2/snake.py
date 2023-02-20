@@ -9,13 +9,30 @@ class cube(object):
     w = 500
 
     def __init__(self, start, dirnx=1, dirny= 0, color=(255, 0, 0)):
-        pass
+        self.pos = start
+        self.dirnx = 1
+        self.dirny = 0
+        self.color = color
 
     def move(self, dirnx, dirny):
-        pass
+        self.dirnx = dirnx
+        self.dirny = dirny
+        self.pos(self.pos[0] + self.dirnx, self.pos[1] + self.dirny)
 
     def draw(self, surface, eyes=False):
-        pass
+        distance = self.w // self.rows
+        i = self.pos[0]
+        j = self.pos[1]
+
+        pygame.draw.rect(surface, self.color, (i * distance + 1, j * distance + 1, distance - 2, distance -2))
+
+        if eyes:
+            center = distance // 2
+            radius = 3
+            circle_mid_1 = (i * distance + center - radius, j * distance + 8)
+            circle_mid_2 = (i * distance + distance - radius * 2, j * distance + 8)
+            pygame.draw.circle(surface, (0, 0, 0), circle_mid_1, radius)
+            pygame.draw.circle(surface, (0, 0, 0), circle_mid_2, radius)
 
 class snake(object):
     body = []
@@ -103,8 +120,9 @@ def draw_grid(w, rows, surface):
         pygame.draw.line(surface, (255, 255, 255), (0, y), (w, y))
 
 def redraw_window(surface):
-    global width, rows
+    global width, rows, s
     surface.fill((0, 0, 0))
+    s.draw(surface)
     draw_grid(width, rows, surface)
     pygame.display.update()
 
@@ -115,7 +133,7 @@ def message_box(subject, content):
     pass
 
 def main():
-    global width, rows
+    global width, rows, s
     width = 500
     rows = 20
     window = pygame.display.set_mode((width, width))
