@@ -8,7 +8,7 @@ class cube(object):
     rows = 20
     w = 500
 
-    def __init__(self, start, dirnx = 1, dirny = 0, color = (255, 0, 0)):
+    def __init__(self, start, dirnx = 1, dirny = 0, color = (0, 255, 0)):
         self.pos = start
         self.dirnx = 1
         self.dirny = 0
@@ -184,9 +184,11 @@ def main():
     rows = 20
     flag = True
 
+    pygame.display.set_caption('Snake v.1')
+    
     window = pygame.display.set_mode((width, width))
     s = snake((255, 0, 0), (10, 10))
-    snack = cube(random_snack(rows, s), color = (0, 255, 0))
+    snack = cube(random_snack(rows, s), color = (255, 0, 0))
     clock = pygame.time.Clock()
 
     while flag:
@@ -196,7 +198,7 @@ def main():
 
         if s.body[0].pos == snack.pos:
             s.add_cube()
-            snack = cube(random_snack(rows, s), color = (0, 255, 0))
+            snack = cube(random_snack(rows, s), color = (255, 0, 0))
         
         for x in range(len(s.body)):
             if s.body[x].pos in list(map(lambda z:z.pos, s.body[x + 1:])):
